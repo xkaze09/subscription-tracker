@@ -5,7 +5,11 @@ export const signUp = async(req, res, next) => {
     session.startTransaction();
 
     try {
+        // Create a new user
 
+
+
+        await session.commitTransaction();
     } catch (error) {
         await session.abortTransaction();
         session.endSession();
