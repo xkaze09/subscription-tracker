@@ -15,6 +15,9 @@ export const signUp = async(req, res, next) => {
         session.endSession();
         next(error);
     }
+
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
 }
 
 export const signIn = async(req, res, next) => {
