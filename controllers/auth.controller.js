@@ -19,6 +19,8 @@ export const signUp = async(req, res, next) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
+        const newUser = await User.Create([{name, email, password: hashedPassword}], {session});
+
         await session.commitTransaction();
     } catch (error) {
         await session.abortTransaction();
