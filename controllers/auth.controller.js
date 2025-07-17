@@ -5,9 +5,19 @@ export const signUp = async(req, res, next) => {
     session.startTransaction();
 
     try {
+        // Check if a user already exists
+        const existingUser = await User.FindOne({email});
+
         // Create a new user
+        if (existingUser) {
+            const error = new Error('User already exists');
+            error.statusCode = 409;
+            throw error;
+        }
 
-
+        // Hash password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
 
         await session.commitTransaction();
     } catch (error) {
