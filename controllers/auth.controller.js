@@ -46,7 +46,6 @@ export const signUp = async(req, res, next) => {
         session.endSession();
         next(error);
     }
-
 }
 
 export const signIn = async(req, res, next) => {
