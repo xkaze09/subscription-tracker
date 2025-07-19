@@ -29,3 +29,23 @@ export const getUserSubscriptions = async (req, res, next) => {
         next(error);
     }
 }
+
+export const deleteUserSubcription = async (req, res, next) => {
+    try {
+        // Find the subscription by ID
+        const subscription = await Subscription.findById(req.params.subscriptionId);
+        
+        // Check if the user is the same as the one in the token
+        if (req.user.id !== req.params.id) {
+            const error = new Error('You are not the owner of this account');
+            error.status = 401;
+            throw error;
+        }
+
+        await subscription.deleteOne();
+
+        res.status(201).json({success: true, message: 'Subscription deleted'});
+    } catch(next) {
+        next(error);
+    }
+}
